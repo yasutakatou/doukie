@@ -161,6 +161,9 @@ Therefore, first process as a server, second process as a client, can file trans
 ## doukie over ssh.
 
 doukie use http transfer, so can over ssh forwarding.<br>
+
+![ssh](https://github.com/yasutakatou/doukie/blob/pic/ssh.gif)
+
 your remote server easy sync.
 
 # options
