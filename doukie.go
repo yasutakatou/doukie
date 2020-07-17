@@ -1,3 +1,10 @@
+/*
+ * multi platform, one binary, automated file transfer util by Golang.
+ *
+ * @author    yasutakatou
+ * @copyright 2020 yasutakatou
+ * @license   3-clause BSD License
+*/
 package main
 
 import (
