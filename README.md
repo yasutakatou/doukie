@@ -16,7 +16,7 @@ on not supported computers, is require support by official or OSS comunity effor
 **We know universal protocol, is HTTP**.<br>
 
 I think to want implement easy file transfer method by HTTP.<br>
-and, I realize file transfer on multi platform (include Smart phone!).
+and, I realize file transfer on multi platform **(include Smart phone!)**.
 
 # features
 
@@ -137,7 +137,7 @@ doukie -dir=myDir -token=test -dst=192.168.0.1
 doukie -noDelete -token=test -dst=192.168.0.1
 ```
 
-See here for other options.
+[See here for other options](https://github.com/yasutakatou/doukie#options).
 
 ## case2: PC(server) to Android(client)
 
