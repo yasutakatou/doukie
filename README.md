@@ -1,6 +1,6 @@
 # doukie
 
-**multi platform, one binary, automated file transfer util by Golang**.
+**multi platform, one binary, automated file transfer util by Golang**.<br>
 doukie is meaned japanese word is "sync", and green day's album "dookie" anagramed.
 
 # demo
@@ -9,13 +9,13 @@ doukie is meaned japanese word is "sync", and green day's album "dookie" anagram
 
 # solution
 
-AirDrop is very useful file transfer method.
-But, It's not what I'd expect opened economy method.
-on not supported computers, is require support by official or OSS comunity effort.
+AirDrop is very useful file transfer method.<br>
+But, It's not what I'd expect opened economy method.<br>
+on not supported computers, is require support by official or OSS comunity effort.<br>
 
-**We know universal protocol, is HTTP**.
+**We know universal protocol, is HTTP**.<br>
 
-I think to want implement easy file transfer method by HTTP.
+I think to want implement easy file transfer method by HTTP.<br>
 and, I realize file transfer on multi platform (include Smart phone!).
 
 # features
@@ -29,24 +29,28 @@ and, I realize file transfer on multi platform (include Smart phone!).
 # usecase
 
 ## case1: PC Client and PC Server (or vice versa)
- - use static token authentication
-    this mode, you set static token when tool running, and client side same token.
-    client access to server by static token.
-    in case of authentication success, client copy files from server.
- - auto sync mode
-    server send multicast udp packet periodically include authentication detail.
-    when client receive this packet, decrypt packet, client start to access to server.
-    **I mean, You don't need to know the server's IP address!**
-    in case of authentication success, client copy files from server.
+
+ - use static token authentication<br>
+    this mode, you set static token when tool running, and client side same token.<br>
+    client access to server by static token.<br>
+    in case of authentication success, client copy files from server.<br>
+
+- auto sync mode<br>
+    server send multicast udp packet periodically include authentication detail.<br>
+    when client receive this packet, decrypt packet, client start to access to server.<br>
+    **I mean, You don't need to know the server's IP address!**<br>
+    in case of authentication success, client copy files from server.<br>
 
 ## case2: PC Server and Android Client
- - QR code scan and access to server
-    When start application, QR code scan displayed.
-    server console display QR code and scan by Android.
-    in case of authentication success, Android copy files from server.
+
+- QR code scan and access to server<br>
+    When start application, QR code scan displayed.<br>
+    server console display QR code and scan by Android.<br>
+    in case of authentication success, Android copy files from server.<br>
 
 ## case3: Android(server) to PC(client)
-  This feature is not implemented.
+
+This feature is not implemented.<br>
 
 # installation
 
@@ -64,7 +68,7 @@ cd doukie
 go build doukie.go
 ```
 
-[or download binary from release page]().
+[or download binary from release page](https://github.com/yasutakatou/doukie/releases).<br>
 save binary file, copy to entryed execute path directory.
 
 # uninstall
@@ -73,18 +77,18 @@ delete that binary. del or rm command. (it's simple!)
 
 # usecase details
 
-## case1: PC(server) to PC(client)
+## case1: PC(server) to PC(client)<br>
  - use static token authentication
 
-when static token mode, you set static token when running.
+when static token mode, you set static token when running.<br>
 this following token is "test".
 
 ```
 doukie -token=test
 ```
 
-note) If not set static token, tool create and use random 8 character.
-
+note) If not set static token, tool create and use random 8 character.<br>
+<br>
 next, client side, set server ip address and token.
 
 ```
@@ -93,12 +97,12 @@ doukie -token=test -dst=192.168.0.1
 
 note) server's ip is must examine before running.
 
- - auto sync mode
+ - auto sync mode<br>
 
-this mode only set token used encrypt and decrypt.
+this mode only set token used encrypt and decrypt.<br>
 
-note )  If can decrypt udp packet from server, access server data. 
- this mode danger and recommend in home and trust network use only.
+note )  If can decrypt udp packet from server, access server data. <br>
+ this mode danger and recommend in home and trust network use only.<br>
 
 ```
 doukie -auto=test
@@ -112,22 +116,22 @@ doukie -autoDst=test
 
 ### You want to use another feature.
 
- - transfer by HTTPS.
+ - transfer by HTTPS.<br>
 
 ```
 doukie -https -cert=localhost.pem -key=localhost-key.pem -token=test
 ```
 
-note) you have to prepare certs.
+note) you have to prepare certs.<br>
 
- - change target directory.
+ - change target directory.<br>
 
 ```
 doukie -dir=myDir -token=test -dst=192.168.0.1
 ```
 
- - by default if some file exists client, but not exists server, that file delete on client.
-    when enable -noDelete option, not delete.
+ - by default if some file exists client, but not exists server, that file delete on client.<br>
+    when enable -noDelete option, not delete.<br>
 
 ```
 doukie -noDelete -token=test -dst=192.168.0.1
@@ -136,14 +140,32 @@ doukie -noDelete -token=test -dst=192.168.0.1
 See here for other options.
 
 ## case2: PC(server) to Android(client)
- - QR code scan and access to server
 
-look at andoukie(doukie client for Android).
-what is andoukie? here.
+ - QR code scan and access to server<br>
+
+look at andoukie(doukie client for Android).<br>
+[what is andoukie? here.](https://github.com/yasutakatou/andoukie)<br>
+
+# Interesting uses.
+
+## doukie spray
+
+server can connected many client.<br>
+If your team access one server, can transfer same file.
+
+## doukie relay.
+
+doukie can running more than one on diffrent port number.<br>
+Therefore, first process as a server, second process as a client, can file transfer relay.
+
+## doukie over ssh.
+
+doukie use http transfer, so can over ssh forwarding.<br>
+your remote server easy sync.
 
 # options
 
-this options enable on only PC. Android not useful.
+this options enable on only PC. Android not useful.<br>
 
 |option name|default value|detail|
 |:---|:---|:---|
@@ -160,3 +182,4 @@ this options enable on only PC. Android not useful.
 -cert|localhost.pem|ssl_certificate file path (if you don't use https, haven't to use this option)|
 -key|localhost-key.pem|ssl_certificate_key file path (if you don't use https, haven't to use this option)|
 -notDelete|false|not delete mode (true is enable)|
+
