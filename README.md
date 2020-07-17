@@ -186,3 +186,7 @@ this options enable on only PC. Android not useful.<br>
 -key|localhost-key.pem|ssl_certificate_key file path (if you don't use https, haven't to use this option)|
 -notDelete|false|not delete mode (true is enable)|
 
+# LICENSE
+
+ BSD-3-Clause License
+ 
