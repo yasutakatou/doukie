@@ -5,17 +5,9 @@ doukie is meaned japanese word is "sync", and green day's album "dookie" anagram
 
 # demo
 
-## connected many client.
+## auto sync.
 
-![party](https://github.com/yasutakatou/doukie/blob/pic/party.gif)
-
-## relay.
-
-![relay](https://github.com/yasutakatou/doukie/blob/pic/relay.gif)
-
-## over ssh.
-
-![ssh](https://github.com/yasutakatou/doukie/blob/pic/ssh.gif)
+![autosync](https://github.com/yasutakatou/doukie/blob/pic/autosync.gif)
 
 # solution
 
