@@ -7,6 +7,10 @@ doukie is meaned japanese word is "sync", and green day's album "dookie" anagram
 
 ## auto sync.
 
+![nodelete](https://github.com/yasutakatou/doukie/blob/pic/nodelete.gif)
+
+## sync deleted.
+
 ![autosync](https://github.com/yasutakatou/doukie/blob/pic/autosync.gif)
 
 # solution
