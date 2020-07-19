@@ -9,8 +9,6 @@ doukie is meaned japanese word is "sync", and green day's album "dookie" anagram
 
 ![party](https://github.com/yasutakatou/doukie/blob/pic/party.gif)
 
-If your team access one server, can transfer same file.
-
 ## relay.
 
 ![relay](https://github.com/yasutakatou/doukie/blob/pic/relay.gif)
