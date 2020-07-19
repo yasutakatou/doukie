@@ -5,7 +5,19 @@ doukie is meaned japanese word is "sync", and green day's album "dookie" anagram
 
 # demo
 
-(WIP)
+## connected many client.
+
+![party](https://github.com/yasutakatou/doukie/blob/pic/party.gif)
+
+If your team access one server, can transfer same file.
+
+## relay.
+
+![relay](https://github.com/yasutakatou/doukie/blob/pic/relay.gif)
+
+## over ssh.
+
+![ssh](https://github.com/yasutakatou/doukie/blob/pic/ssh.gif)
 
 # solution
 
@@ -151,11 +163,17 @@ look at andoukie(doukie client for Android).<br>
 ## doukie spray
 
 server can connected many client.<br>
+
+![party](https://github.com/yasutakatou/doukie/blob/pic/party.gif)
+
 If your team access one server, can transfer same file.
 
 ## doukie relay.
 
 doukie can running more than one on diffrent port number.<br>
+
+![relay](https://github.com/yasutakatou/doukie/blob/pic/relay.gif)
+
 Therefore, first process as a server, second process as a client, can file transfer relay.
 
 ## doukie over ssh.
