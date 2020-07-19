@@ -370,8 +370,11 @@ func dstFileRemove(lists []string) {
 				fFlag = true
 			}
 		}
-		if fFlag == false {
+		if fFlag == false && notDelete == false {
 			fmt.Println("source not exists, remove: ", dataDir+Hashs[i].Filename)
+			if err := os.Remove(dataDir + Hashs[i].Filename); err != nil {
+				fmt.Println(err)
+			}
 		}
 	}
 }
