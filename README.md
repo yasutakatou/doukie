@@ -13,6 +13,10 @@ doukie is meaned japanese word is "sync", and green day's album "dookie" anagram
 
 ![nodelete](https://github.com/yasutakatou/doukie/blob/pic/nodelete.gif)
 
+## sync https
+
+![https](https://github.com/yasutakatou/doukie/blob/pic/https.gif)
+
 # solution
 
 AirDrop is very useful file transfer method.<br>
