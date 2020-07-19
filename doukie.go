@@ -14,6 +14,7 @@ import (
 	"crypto/cipher"
 	"crypto/md5"
 	crt "crypto/rand"
+	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -256,16 +257,38 @@ func Exists(filename string) bool {
 }
 
 func getList(endpoint string) (string, string) {
-	fmt.Println(endpoint + "/" + Token + "/list")
+	var body []byte
+	var err error
+
+	fmt.Println("request url: ", endpoint + "/" + Token + "/list")
 	req, _ := http.NewRequest("GET", endpoint+"/"+Token+"/list", nil)
 
-	client := new(http.Client)
-	resp, _ := client.Do(req)
-	defer resp.Body.Close()
+	if HTTPS == true {
+		http.DefaultClient.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		}
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "Error", "not send rest api " + endpoint
+		client := &http.Client{
+			Transport: http.DefaultClient.Transport,
+		}
+		resp, _ := client.Do(req)
+		defer resp.Body.Close()
+
+		body, err = ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return "Error", "not send rest api " + endpoint
+		}
+	} else {
+		client := new(http.Client)
+		resp, _ := client.Do(req)
+		defer resp.Body.Close()
+
+		body, err = ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return "Error", "not send rest api " + endpoint
+		}
 	}
 
 	var result Data
