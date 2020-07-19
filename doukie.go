@@ -4,11 +4,12 @@
  * @author    yasutakatou
  * @copyright 2020 yasutakatou
  * @license   3-clause BSD License
-*/
+ */
 package main
 
 import (
 	"bufio"
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"
@@ -277,6 +278,13 @@ func getList(endpoint string) (string, string) {
 }
 
 func DownloadFile(urls, filename string) error {
+	if Exists(dataDir) == false {
+		if err := os.MkdirAll(dataDir, 0777); err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+
 	resp, err := http.Get(urls)
 	if err != nil {
 		return err
@@ -289,8 +297,22 @@ func DownloadFile(urls, filename string) error {
 	}
 	defer out.Close()
 
-	_, err = io.Copy(out, resp.Body)
-	return err
+	strs := StreamToString(resp.Body)
+
+	sDec, err := base64.StdEncoding.DecodeString(strs)
+	if err != nil {
+		fmt.Printf("Error decoding string: %s ", err.Error())
+		return err
+	}
+
+	out.Write(sDec)
+	return nil
+}
+
+func StreamToString(stream io.Reader) string {
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(stream)
+	return buf.String()
 }
 
 func destMode(dst string, wait int) {
@@ -320,7 +342,6 @@ func doDownload(Message, dst string) {
 			if []byte(strb[0])[0] == 32 {
 				strb[0] = strb[0][1:]
 			}
-			fmt.Println(":" + strb[0] + ":")
 			files = append(files, strb[0])
 
 			if Exists(dataDir+strb[0]) == false {
