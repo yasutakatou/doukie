@@ -260,8 +260,13 @@ func getList(endpoint string) (string, string) {
 	var body []byte
 	var err error
 
-	fmt.Println("request url: ", endpoint + "/" + Token + "/list")
-	req, _ := http.NewRequest("GET", endpoint+"/"+Token+"/list", nil)
+	fmt.Println("request url: ", endpoint+"/"+Token+"/list")
+	req, err := http.NewRequest("GET", endpoint+"/"+Token+"/list", nil)
+
+	if err != nil {
+		fmt.Println(err)
+		return "Error", "not send rest api " + endpoint
+	}
 
 	if HTTPS == true {
 		http.DefaultClient.Transport = &http.Transport{
@@ -273,8 +278,12 @@ func getList(endpoint string) (string, string) {
 		client := &http.Client{
 			Transport: http.DefaultClient.Transport,
 		}
-		resp, _ := client.Do(req)
-		defer resp.Body.Close()
+		resp, err := client.Do(req)
+		//defer resp.Body.Close()
+		if err != nil {
+			fmt.Println("endpoint not found: " + endpoint + "/" + Token + "/list")
+			return "", ""
+		}
 
 		body, err = ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -282,8 +291,12 @@ func getList(endpoint string) (string, string) {
 		}
 	} else {
 		client := new(http.Client)
-		resp, _ := client.Do(req)
-		defer resp.Body.Close()
+		resp, err := client.Do(req)
+		//defer resp.Body.Close()
+		if err != nil {
+			fmt.Println("endpoint not found: " + endpoint + "/" + Token + "/list")
+			return "", ""
+		}
 
 		body, err = ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -293,7 +306,7 @@ func getList(endpoint string) (string, string) {
 
 	var result Data
 	if err := json.Unmarshal(body, &result); err != nil {
-		fmt.Println("logger Unmarshal error: ", err)
+		fmt.Println("auth error: token is incorrect?")
 		return "Error", "not send rest api " + endpoint
 	}
 
