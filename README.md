@@ -36,6 +36,29 @@ and, I realize file transfer on multi platform **(include Smart phone!)**.
  - automated file transfer.
  - file exists check (use md5 hash)
 
+# what auto sync mode?
+
+ - normal mode call following.<br>
+
+1.  client call server's api on static ip. 
+call "http(s)://{server ip address}:{port}/{token}/list"<br>
+<br>
+note) static ip can be defined *-dst* option.<br>
+
+2. If client can get lists, downloading files on static ip.<br>
+call "http(s)://{server ip address}:{port}/{token}/download/{filename}"<br>
+
+ - but, auto sync mode is.
+
+1. you set client and server **AES encrypt key** when tool running.<br>
+note) *-auto* and *-autoDst* option.<br>
+
+2. server encrypt access details and send to **multicast udp(to 224.0.0.1)**.<br>
+3. client get this packet, decrypt data. If client decrypt success, get access url, port, token.<br>
+4. then, normal mode starting.<br>
+
+**I mean, You don't need to know the server's IP address!**<br>
+
 # usecase
 
 ## case1: PC Client and PC Server (or vice versa)
