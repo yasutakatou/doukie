@@ -42,7 +42,6 @@ and, I realize file transfer on multi platform **(include Smart phone!)**.
 
 1.  client call server's api on static ip. 
 call "http(s)://{server ip address}:{port}/{token}/list"<br>
-<br>
 note) static ip can be defined *-dst* option.<br>
 
 2. If client can get lists, downloading files on static ip.<br>
