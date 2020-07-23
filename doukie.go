@@ -378,17 +378,24 @@ func doDownload(Message, dst string) {
 			if []byte(strb[0])[0] == 32 {
 				strb[0] = strb[0][1:]
 			}
-			files = append(files, strb[0])
 
-			if Exists(dataDir+strb[0]) == false {
-				fmt.Println("not exsits download!", dst+"/"+Token+"/download/"+strb[0])
-				DownloadFile(dst+"/"+Token+"/download/"+strb[0], strb[0])
-			} else if strings.Index(strb[1], calcHash(dataDir+strb[0])) == -1 {
-				fmt.Println("hash differ download!", dst+"/"+Token+"/download/"+strb[0])
-				DownloadFile(dst+"/"+Token+"/download/"+strb[0], strb[0])
-			} else {
-				fmt.Println("same or exists: ", strb[0])
+			tmpFilename, err := base64.StdEncoding.DecodeString(strb[0])
+
+			if err == nil {
+				filename := string(tmpFilename)
+				files = append(files, filename)
+
+				if Exists(dataDir+filename) == false {
+					fmt.Println("not exsits download!", dst+"/"+Token+"/download/"+filename)
+					DownloadFile(dst+"/"+Token+"/download/"+strb[0], filename)
+				} else if strings.Index(strb[1], calcHash(dataDir+filename)) == -1 {
+					fmt.Println("hash differ download!", dst+"/"+Token+"/download/"+filename)
+					DownloadFile(dst+"/"+Token+"/download/"+strb[0], filename)
+				} else {
+					fmt.Println("same or exists: ", filename)
+				}
 			}
+
 		}
 	}
 	if notDelete == false {
@@ -400,16 +407,20 @@ func dstFileRemove(lists []string) {
 	listUpFiles()
 
 	for i := 0; i < len(Hashs); i++ {
-		fFlag := false
-		for r := 0; r < len(lists); r++ {
-			if Hashs[i].Filename == lists[r] {
-				fFlag = true
+		tmpFilename, err := base64.StdEncoding.DecodeString(Hashs[i].Filename)
+		if err == nil {
+			filename := string(tmpFilename)
+			fFlag := false
+			for r := 0; r < len(lists); r++ {
+				if filename == lists[r] {
+					fFlag = true
+				}
 			}
-		}
-		if fFlag == false && notDelete == false {
-			fmt.Println("source not exists, remove: ", dataDir+Hashs[i].Filename)
-			if err := os.Remove(dataDir + Hashs[i].Filename); err != nil {
-				fmt.Println(err)
+			if fFlag == false && notDelete == false {
+				fmt.Println("source not exists, remove: ", dataDir+filename)
+				if err := os.Remove(dataDir + filename); err != nil {
+					fmt.Println(err)
+				}
 			}
 		}
 	}
@@ -442,7 +453,7 @@ func listUpFiles() {
 	for i := 0; i < len(files); i++ {
 		mime, err := GetFileContentType(dataDir + files[i])
 		if err == nil {
-			Hashs = append(Hashs, hashTable{Filename: files[i], Hash: calcHash(dataDir + files[i]), contentType: mime})
+			Hashs = append(Hashs, hashTable{Filename: base64.StdEncoding.EncodeToString([]byte(files[i])), Hash: calcHash(dataDir + files[i]), contentType: mime})
 		}
 	}
 }
@@ -473,8 +484,11 @@ func StartAPI(dir, port, cert, key string) {
 	http.HandleFunc("/"+Token+"/list", listHandler)
 
 	http.HandleFunc("/"+Token+"/download/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("download!: " + dataDir + r.URL.Path[strings.LastIndex(r.URL.Path, "/")+1:])
-		downloadHandler(w, r, dataDir+r.URL.Path[strings.LastIndex(r.URL.Path, "/")+1:])
+		Filename, err := base64.URLEncoding.DecodeString(r.URL.Path[strings.LastIndex(r.URL.Path, "/")+1:])
+		if err == nil {
+			fmt.Println("download call: " + r.RemoteAddr + " " + string(Filename))
+			downloadHandler(w, r, dataDir+string(Filename))
+		}
 	})
 
 	if HTTPS == true {
@@ -516,6 +530,8 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Content-Type", "application/json")
+
+	fmt.Println("list call: ", r.RemoteAddr)
 
 	listUpFiles()
 
